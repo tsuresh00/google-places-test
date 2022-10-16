@@ -3,7 +3,7 @@ import { View, StyleSheet, TextInput } from 'react-native';
 import Constants from 'expo-constants';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
-const GOOGLE_PLACES_API_KEY = 'AIzaSyCOS5U2IGtzOBb-o5vBSkTjKeWpuDrBKOk'; 
+const GOOGLE_PLACES_API_KEY = ''; 
 
 const App = () => {
   return (
@@ -11,7 +11,7 @@ const App = () => {
       <GooglePlacesAutocomplete
         placeholder="Search"
         query={{
-          key: 'AIzaSyCOS5U2IGtzOBb-o5vBSkTjKeWpuDrBKOk',
+          key: '',
           language: 'en',
         }}
         onPress={(data, details = null) => console.log(data)}
