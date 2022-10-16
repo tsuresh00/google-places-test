@@ -1,45 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { Platform, Text, View, StyleSheet } from 'react-native';
+import * as React from 'react';
+import { View, StyleSheet, TextInput } from 'react-native';
+import Constants from 'expo-constants';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
-import * as Location from 'expo-location';
+const GOOGLE_PLACES_API_KEY = 'AIzaSyCOS5U2IGtzOBb-o5vBSkTjKeWpuDrBKOk'; 
 
-export default function App() {
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
-
-  useEffect(() => {
-    (async () => {
-      
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-    })();
-  }, []);
-
-  let text = 'Waiting..';
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
-    console.log(JSON.stringify(location));
-  }
-
+const App = () => {
   return (
     <View style={styles.container}>
-      <Text>{JSON.stringify(location)}</Text>
+      <GooglePlacesAutocomplete
+        placeholder="Search"
+        query={{
+          key: 'AIzaSyCOS5U2IGtzOBb-o5vBSkTjKeWpuDrBKOk',
+          language: 'en',
+        }}
+        onPress={(data, details = null) => console.log(data)}
+        onFail={(error) => console.error(error)}
+        requestUrl={{
+          url:
+            'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api',
+          useOnPlatform: 'web',
+        }} // this in only required for use on the web. See https://git.io/JflFv more for details.
+      />
     </View>
   );
-}
+};
+
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor:"#fff",
-      alignItems:'center',
-      justifyContent:'center'
-    },
+  container: {
+    flex: 1,
+    padding: 10,
+    paddingTop: Constants.statusBarHeight + 10,
+    backgroundColor: '#ecf0f1',
+  },
 });
+
+export default App;
